@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>My ToDo List</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <h1>📝 My ToDo List</h1>
+
+    <p class="description">
+    シンプルにタスクを管理できるToDoアプリ
+    </p>
+
+
+    <form method="POST" class="add-form">
+
+        <input
+            type="text"
+            name="task"
+            placeholder="タスクを入力してください"
+            required
+        >
+
+        <button type="submit">
+            ＋追加
+        </button>
+
+    </form>
+
+
+    <h2>ToDo</h2>
+
+    <div class="count-area">
+
+        <div class="count-card">
+            <span>未完了</span>
+            <strong>{{ incomplete_count }}</strong>
+            <small>件</small>
+        </div>
+
+        <div class="count-card">
+            <span>完了</span>
+            <strong>{{ complete_count }}</strong>
+            <small>件</small>
+        </div>
+
+</div>
+
+    <ul>
+
+        {% for task in tasks %}
+
+        <li>
+
+            {% if task["completed"] %}
+
+                <span class="task-name completed">
+                    {{ task["name"] }}
+                </span>
+
+                <a href="/complete/{{ task['id'] }}">
+                    <button>戻す</button>
+                </a>
+
+            {% else %}
+
+                <span class="task-name">
+                    {{ task["name"] }}
+                </span>
+
+                <a href="/complete/{{ task['id'] }}">
+                    <button class="complete-btn">完了</button>
+                </a>
+
+            {% endif %}
+
+                <a href="/edit/{{ task['id'] }}">
+                    <button class="edit-btn">編集</button>
+                </a>
+
+                <a 
+                    href="/delete/{{ task['id'] }}"
+                    onclick="return confirm('このタスクを削除しますか？');"
+                >
+                    <button class="delete-btn">削除</button>
+                </a>
+
+        </li>
+
+        {% endfor %}
+
+    </ul>
+
+</div>
+
+</body>
+
+</html>
