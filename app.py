@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, request, redirect
 import sqlite3
 
@@ -17,10 +18,24 @@ def init_db():
         CREATE TABLE IF NOT EXISTS tasks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            completed INTEGER DEFAULT 0
+            completed INTEGER DEFAULT 0,
+            due_date TEXT
         )
     """)
 
+    columns = conn.execute(
+        "PRAGMA table_info(tasks)"
+    ).fetchall()
+    
+    column_names = [
+        column["name"] for column in columns
+    ]
+    
+    if "due_date" not in column_names:
+        conn.execute(
+            "ALTER TABLE tasks ADD COLUMN due_date TEXT"
+    )
+        
     conn.commit()
     conn.close()
 
@@ -31,12 +46,14 @@ def home():
     if request.method == "POST":
 
         task = request.form["task"]
+        
+        due_date = request.form["due_date"]
 
         conn = get_db()
 
         conn.execute(
-            "INSERT INTO tasks (name) VALUES (?)",
-            (task,)
+            "INSERT INTO tasks (name, due_date) VALUES (?, ?)",
+            (task, due_date)
         )
 
         conn.commit()
@@ -105,10 +122,15 @@ def edit(id):
     if request.method == "POST":
 
         new_name = request.form["task"]
+        new_due_date = request.form["due_date"]
 
         conn.execute(
-            "UPDATE tasks SET name = ? WHERE id = ?",
-            (new_name, id)
+            """
+            UPDATE tasks 
+            SET name = ?, due_date = ?
+            WHERE id = ?
+            """,
+            (new_name, new_due_date, id)
         )
 
         conn.commit()
@@ -143,4 +165,4 @@ init_db()
 
 if __name__ == "__main__":
 
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True)

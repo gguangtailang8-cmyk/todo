@@ -14,7 +14,6 @@
 
 </head>
 
-
 <body>
 
 <div class="container">
@@ -22,7 +21,7 @@
     <h1>📝 My ToDo List</h1>
 
     <p class="description">
-    シンプルにタスクを管理できるToDoアプリ
+        シンプルにタスクを管理できるToDoアプリ
     </p>
 
 
@@ -35,6 +34,11 @@
             required
         >
 
+        <input
+            type="date"
+            name="due_date"
+        >
+
         <button type="submit">
             ＋追加
         </button>
@@ -44,21 +48,36 @@
 
     <h2>ToDo</h2>
 
+
     <div class="count-area">
 
         <div class="count-card">
+
             <span>未完了</span>
-            <strong>{{ incomplete_count }}</strong>
+
+            <strong>
+                {{ incomplete_count }}
+            </strong>
+
             <small>件</small>
+
         </div>
+
 
         <div class="count-card">
+
             <span>完了</span>
-            <strong>{{ complete_count }}</strong>
+
+            <strong>
+                {{ complete_count }}
+            </strong>
+
             <small>件</small>
+
         </div>
 
-</div>
+    </div>
+
 
     <ul>
 
@@ -68,36 +87,83 @@
 
             {% if task["completed"] %}
 
-                <span class="task-name completed">
-                    {{ task["name"] }}
-                </span>
+                <div class="task-info">
+
+                    <span class="task-name completed">
+                        {{ task["name"] }}
+                    </span>
+
+                    {% if task["due_date"] %}
+
+                        <span class="due-date">
+                            📅 期限：{{ task["due_date"] }}
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
 
                 <a href="/complete/{{ task['id'] }}">
-                    <button>戻す</button>
+
+                    <button>
+                        戻す
+                    </button>
+
                 </a>
+
 
             {% else %}
 
-                <span class="task-name">
-                    {{ task["name"] }}
-                </span>
+
+                <div class="task-info">
+
+                    <span class="task-name">
+                        {{ task["name"] }}
+                    </span>
+
+                    {% if task["due_date"] %}
+
+                        <span class="due-date">
+                            📅 期限：{{ task["due_date"] }}
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
 
                 <a href="/complete/{{ task['id'] }}">
-                    <button class="complete-btn">完了</button>
+
+                    <button class="complete-btn">
+                        完了
+                    </button>
+
                 </a>
+
 
             {% endif %}
 
-                <a href="/edit/{{ task['id'] }}">
-                    <button class="edit-btn">編集</button>
-                </a>
 
-                <a 
-                    href="/delete/{{ task['id'] }}"
-                    onclick="return confirm('このタスクを削除しますか？');"
-                >
-                    <button class="delete-btn">削除</button>
-                </a>
+            <a href="/edit/{{ task['id'] }}">
+
+                <button class="edit-btn">
+                    編集
+                </button>
+
+            </a>
+
+
+            <a
+                href="/delete/{{ task['id'] }}"
+                onclick="return confirm('このタスクを削除しますか？');"
+            >
+
+                <button class="delete-btn">
+                    削除
+                </button>
+
+            </a>
 
         </li>
 

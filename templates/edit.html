@@ -5,35 +5,44 @@
     <meta charset="UTF-8">
     <title>タスクを編集</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
 </head>
 
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <h1>✏️ タスクを編集</h1>
+    <h1>✏️ タスクを編集</h1>
 
-        <form method="POST" class="add-form">
+    <form method="POST" class="add-form">
 
-            <input
-                type="text"
-                name="task"
-                value="{{ task['name'] }}"
-                required
-            >
+        <input
+            type="text"
+            name="task"
+            value="{{ task['name'] }}"
+            required
+        >
 
-            <button type="submit">
-                保存
-            </button>
+        <input
+            type="date"
+            name="due_date"
+            value="{{ task['due_date'] or '' }}"
+        >
 
-        </form>
+        <button type="submit">
+            保存
+        </button>
 
-        <a href="/">
-            ← ToDoリストに戻る
-        </a>
+    </form>
 
-    </div>
+    <a href="/">
+        ← ToDoリストに戻る
+    </a>
+
+</div>
 
 </body>
 
