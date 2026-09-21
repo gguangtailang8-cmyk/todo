@@ -124,9 +124,19 @@
 
                     {% if task["due_date"] %}
 
-                        <span class="due-date">
-                            📅 期限：{{ task["due_date"] }}
-                        </span>
+                        {% if task["due_date"] < today %}
+
+                            <span class="due-date overdue">
+                                ⚠️ 期限切れ：{{ task["due_date"] }}
+                            </span>
+
+                        {% else %}
+
+                            <span class="due-date">
+                                📅 期限：{{ task["due_date"] }}
+                            </span>
+
+                        {% endif %}    
 
                     {% endif %}
 

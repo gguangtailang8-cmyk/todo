@@ -1,6 +1,7 @@
 
 from flask import Flask, render_template, request, redirect
 import sqlite3
+from datetime import date
 
 app = Flask(__name__)
 
@@ -42,6 +43,8 @@ def init_db():
 
 @app.route("/", methods=["GET", "POST"])
 def home():
+    
+    today = date.today().isoformat()
 
     if request.method == "POST":
 
@@ -83,7 +86,8 @@ def home():
         "index.html",
         tasks=tasks,
         incomplete_count=incomplete_count,
-        complete_count=complete_count
+        complete_count=complete_count,
+        today=today
     )
 
 

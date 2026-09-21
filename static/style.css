@@ -218,3 +218,8 @@ button {
     font-size: 13px;
     color: #777;
 }
+
+.overdue {
+    color: #e74c3c;
+    font-weight: bold;
+}
